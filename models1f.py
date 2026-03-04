@@ -105,11 +105,43 @@ class Empleado(Persona):
         self.horario = "Entrada marcada a las 9:00 AM"
         print(self.horario)
 
-    def gestionarFunciones(self):
+    def gestionarFunciones(self, Funcion):
         if self.rol == "Admin":
-            print("WIP")
+            print(Funcion.obtenerDetallesFuncion())
+            act2 = int(input("Qué quieres hacer? Modificar = 1.- Pelicula. 2.- Sala. 3.- Precio. "))
+            match act2:
+                case 1:
+                    Funcion.pelicula.obtenerSinopsis()
+                    Funcion.pelicula.esAptaParaTodoPublico()
+                    question = input("Quieres cambiar la pelicula? (s/n): ")
+                    if question.lower() == "s": 
+                        nuevo_titulo = input("Escribe el nuevo titulo: ")
+                        nuevo_duracion = int(input("Escribe la nueva duracion (en minutos): "))
+                        nueva_clasificacion = input("Escribe la nueva clasificacion (Solo PG o G para que sea apta para todos.): ")
+                        nuevo_genero = input("Escribe el nuevo genero: ")
+                        Funcion.pelicula = Pelicula(nuevo_titulo, nuevo_duracion, nueva_clasificacion, nuevo_genero)
+                        print(f"Película actualizada a: {Funcion.pelicula.titulo}, {Funcion.pelicula.duracion}min, {Funcion.pelicula.clasificacion}, {Funcion.pelicula.genero}")
+                    else:
+                        print("Nada.")
+                case 2:
+                    Funcion.sala.ajustarAforo()
+                    Funcion.sala.obtenertiposala()
+                    question2 = input("Quieres cambiar el tipo de sala? (s/n): ")
+                    if question2.lower() == "s":   
+                        nuevo_tipo = input("Escribe el nuevo tipo de sala (2D, 3D, IMAX): ")
+                        if nuevo_tipo in tipo._value2member_map_:
+                            Funcion.sala.tipo = tipo(nuevo_tipo)
+                            print(f"Tipo de sala actualizado a: {Funcion.sala.tipo.value}")
+                        else:
+                            print("Nada.")
+                case 3:
+                    nuevo_precio = float(input("Escribe el nuevo precio base: "))
+                    Funcion.precioBase = nuevo_precio
+                    print(f"Precio base actualizado a: ${Funcion.precioBase:.2f}")
+                case _:
+                    print("Nada.")
         else:
-            print("No tienes permisos para gestionar funciones.")
+            print("No eres admin.")
 
 # ----------------------------------------------------------------------------------
 class Espacio():
@@ -267,4 +299,3 @@ class Reserva:
             self.montoTotal -= descuento
             print(f"Código: {promocion.codigo} (-{promocion.porcentajeDescuento}%)")
             print(f"Precio final: ${self.montoTotal:.2f}")
-        

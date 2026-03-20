@@ -1,0 +1,62 @@
+import csv
+import os
+
+class Usuario:
+    """Clase para representar a un usuario del sistema mediante Programación Orientada a Objetos."""
+    def __init__(self, nombre, rol, password):
+        self.nombre = nombre
+        self.rol = rol
+        self.password = password
+
+class Pelicula:
+    def __init__(self,id,titulo,clasif,dura, genero, direc_img):
+        self.id_pelicula=id
+        self.titulo=titulo
+        self.clasificacion=clasif
+        self.duracion=dura
+        self.genero=genero
+        self.dir_img=direc_img
+
+class Funcion:
+    def __init__(self,id_fun,pelicula,sala,hora_ini, precio):
+        self.id_funcion=id_fun
+        self.peli=pelicula
+        self.sala=sala
+        self.hora_inicio=hora_ini
+        self.precio=precio
+
+class Producto:
+    def __init__(self,id_prod,nombre,categoria,precio,stock):
+        self.id_producto=id_prod
+        self.nombre=nombre
+        self.categoria=categoria
+        self.precio=precio
+        self.stock=stock
+
+class Sala:
+    def __init__(self, idsala, numero, filas, columnas, tipo):
+        self.idsala = idsala
+        self.numero = numero
+        self.asientos = [False for _ in range(columnas) for _ in range(filas)]
+        self.tipo=  tipo
+
+    def mostrarDisponibilidad(self):
+        return self.asientos
+    
+    def reservarAsientos(self, fila, columna):
+        if not self.asientos[fila][columna]:
+            self.asientos[fila][columna] = True
+            return True
+        return False
+    
+class CineControlador():
+    def __init__(self):
+        self.cartelera = []
+        self.inventario_dulceria = []
+        self.ventas_totales = 0.0
+
+    def agregarFuncion(self, funcion):
+        self.cartelera.append(funcion)
+
+    def agregarProducto(self, prodcuto):
+        self.inventario_dulceria.append(prodcuto)
